@@ -18,6 +18,7 @@ module.exports = {
     'react',
   ],
   rules: {
+    '@typescript-eslint/explicit-function-return-type': 'off',
     'comma-dangle': ['error', 'always-multiline'],
     '@typescript-eslint/comma-dangle': ['error', 'only-multiline'],
     semi: [2, 'always'],
