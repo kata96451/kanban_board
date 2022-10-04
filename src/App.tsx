@@ -1,31 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Form, Button, Stack } from 'react-bootstrap';
-import { getTasks } from './api';
+import { Container } from 'react-bootstrap';
+import { getRepo, getTasks } from './api';
 import { Task } from './types/Task';
 import { Columns } from './components/Columns';
+import { UrlInput } from './components/UrlInput';
+import { Breadcrumbs } from './components/Breadcrumbs';
+import { Repo } from './types/Repo';
 
-function BasicExample () {
+function App () {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [data, setData] = useState<string[]>([]);
+  const [repo, setRepo] = useState<Repo | null>(null);
+
   useEffect(() => {
-    getTasks
+    getTasks(data)
       .then(res => setTasks(res))
       .catch(err => console.log(err));
-  }, []);
 
-  console.log(tasks);
+    getRepo(data)
+      .then(res => {
+        if (res !== null) {
+          setRepo(res);
+          console.log(res);
+        }
+      })
+      .catch(err => console.log(err));
+  }, [data]);
+
+  console.log(repo);
 
   return (
-    <Container className='py-5'>
-      <Stack direction="horizontal" gap={3} className='mb-5'>
-        <Form.Control className="me-auto" placeholder="Add your item here..." />
-        <Button variant="secondary">Submit</Button>
-      </Stack>
+    <Container fluid className='py-5'>
+      <UrlInput setData={setData} />
+
+      {data.length > 0 && <Breadcrumbs data={data} repo={repo} />}
 
       <Columns tasks={tasks} />
-
     </Container>
   );
 }
 
-export default BasicExample;
+export default App;

@@ -1,23 +1,49 @@
 import { Octokit } from 'octokit';
+import { Repo } from './types/Repo';
 import { Task } from './types/Task';
 
-export const getTasks = (async (): Promise<Task[]> => {
+const TOKEN = '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';
+
+export const getTasks = async (dataFromUrl: string[]): Promise<Task[]> => {
   try {
-    const octokit = new Octokit({
-      auth: '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',
-    });
+    if (dataFromUrl.length > 0) {
+      const octokit = new Octokit({
+        auth: TOKEN,
+      });
 
-    const { data } = await octokit.request('GET /repos/facebook/react/issues', {
-      owner: 'facebook',
-      repo: 'react',
-      per_page: '100',
-      state: 'all',
-    });
+      const { data } = await octokit.request(`GET /repos/${dataFromUrl[0]}/${dataFromUrl[1]}/issues`, {
+        owner: dataFromUrl[0],
+        repo: dataFromUrl[1],
+        per_page: '100',
+        state: 'all',
+      });
 
-    return data;
+      return data;
+    }
   } catch (e) {
     console.log(e);
   };
 
   return [];
-})();
+};
+
+export const getRepo = async (dataFromUrl: string[]): Promise<Repo | null> => {
+  try {
+    if (dataFromUrl.length > 0) {
+      const octokit = new Octokit({
+        auth: TOKEN,
+      });
+
+      const { data } = await octokit.request(`GET /repos/${dataFromUrl[0]}/${dataFromUrl[1]}`, {
+        owner: dataFromUrl[0],
+        repo: dataFromUrl[1],
+      });
+
+      return data;
+    }
+  } catch (e) {
+    console.log(e);
+  };
+
+  return null;
+};
