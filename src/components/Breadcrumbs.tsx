@@ -1,14 +1,11 @@
 import React from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import { Repo } from '../types/Repo';
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
 
-interface Props {
-  data: string[]
-  repo: Repo | null
-}
-
-export const Breadcrumbs: React.FC<Props> = (props) => {
-  const { data, repo } = props;
+export const Breadcrumbs: React.FC = () => {
+  const data = useSelector((state: RootState) => state.data);
+  const repo = useSelector((state: RootState) => state.repo);
 
   let starsCount = '';
 

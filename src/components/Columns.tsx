@@ -1,14 +1,11 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-bootstrap';
-import { Task } from '../types/Task';
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
 import { Column } from './Column';
 
-interface Props {
-  tasks: Task[]
-}
-
-export const Columns: React.FC<Props> = (props) => {
-  const { tasks } = props;
+export const Columns: React.FC = () => {
+  const { tasks } = useSelector((state: RootState) => state.tasks);
 
   const closedTasks = useMemo(() => tasks.filter(task => task.state === 'closed'), [tasks]);
   const openedTasks = useMemo(() => tasks.filter(task => task.state === 'open' && task.comments === 0), [tasks]);

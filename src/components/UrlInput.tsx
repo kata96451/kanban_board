@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Button, Form, Stack } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { actions } from '../features/data';
 
-interface Props {
-  setData: (arr: string[]) => void
-}
-
-export const UrlInput: React.FC<Props> = (props) => {
-  const { setData } = props;
+export const UrlInput: React.FC = () => {
+  const dispatch = useDispatch();
   const [url, setUrl] = useState('');
 
   const getData = () => {
     const arr = url.split('/');
     const index = arr.indexOf('github.com');
     const data = arr.slice(index + 1, index + 3);
-    setData(data);
+    if (data.length > 0) {
+      dispatch(actions.set(data));
+    }
   };
 
   return (

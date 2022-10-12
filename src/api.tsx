@@ -2,7 +2,7 @@ import { Octokit } from 'octokit';
 import { Repo } from './types/Repo';
 import { Task } from './types/Task';
 
-const TOKEN = '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';
+const TOKEN = '---';
 
 export const getTasks = async (dataFromUrl: string[]): Promise<Task[]> => {
   try {
